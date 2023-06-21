@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Container, HStack, RadioGroup, Radio } from '@chakra-ui/react'
+import { Container, HStack, RadioGroup, Radio, Button, Text } from '@chakra-ui/react'
 import axios from 'axios'
+import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs'
 import { server } from '../index'
 import ErrorComponent from './ErrorComponent'
 import Loader from './Loader'
@@ -12,11 +13,28 @@ const Coins = () => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(true)
     const [currency, setCurrency] = useState('inr')
+    const [page, setPage] = useState(1)
+
+    const changePage = (e) => {
+        if (e.target.name === 'previous') {
+            setPage(page - 1)
+            setLoading(true)
+        }
+        else {
+            // currently this does not work because even the last page returns 100 elements !
+            if (coins.length === 100) {
+                setPage(page + 1)
+                setLoading(true)
+            } else {
+                e.target.isDisabled = true
+            }
+        }
+    }
 
     useEffect(() => {
         const fetchCoinsData = async () => {
             try {
-                const { data } = await axios.get(`${server}/coins/markets?vs_currency=${currency}`)
+                const { data } = await axios.get(`${server}/coins/markets?vs_currency=${currency}&page=${page}`)
                 setCoins(data)
                 setLoading(false)
             } catch (err) {
@@ -26,7 +44,7 @@ const Coins = () => {
         }
 
         fetchCoinsData();
-    }, [loading, currency])
+    }, [page, currency])
 
     if (error.status) { return <ErrorComponent msg={"Error loading data !"} /> }
 
@@ -45,6 +63,16 @@ const Coins = () => {
                         {coins.map((item) => {
                             return <CoinsCard key={item.id} id={item.id} name={item.name} imgSrc={item.image} price={item.current_price} symbol={item.symbol} currency={currency} />
                         })}
+                    </HStack>
+                    <HStack justifyContent={'space-between'} padding={'8'}>
+                        <Button colorScheme='teal' name="previous"
+                            onClick={changePage} isDisabled={page === 1 ? true : false}
+                        >
+                            <BsArrowLeftShort size={'30'} /> Previous
+                        </Button>
+
+                        <Text>Page {page}</Text>
+                        <Button colorScheme='teal' onClick={changePage} >Next <BsArrowRightShort size={'30'} /></Button>
                     </HStack>
                 </>
             )}
