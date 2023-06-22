@@ -52,7 +52,8 @@ const Coins = () => {
         <Container maxW={'container.xl'} my={'4'} >
             {loading ? <Loader /> : (
                 <>
-                    <RadioGroup value={currency} onChange={setCurrency}>
+
+                    <RadioGroup value={currency} onChange={setCurrency} colorScheme='cyan'>
                         <HStack p={'8'} >
                             <Radio value='inr'>INR</Radio>
                             <Radio value='eur'>EUR</Radio>
@@ -65,14 +66,14 @@ const Coins = () => {
                         })}
                     </HStack>
                     <HStack justifyContent={'space-between'} padding={'8'}>
-                        <Button colorScheme='teal' name="previous"
+                        <Button colorScheme='cyan' name="previous"
                             onClick={changePage} isDisabled={page === 1 ? true : false}
                         >
                             <BsArrowLeftShort size={'30'} /> Previous
                         </Button>
 
                         <Text>Page {page}</Text>
-                        <Button colorScheme='teal' onClick={changePage} >Next <BsArrowRightShort size={'30'} /></Button>
+                        <Button colorScheme='cyan' onClick={changePage} >Next <BsArrowRightShort size={'30'} /></Button>
                     </HStack>
                 </>
             )}
