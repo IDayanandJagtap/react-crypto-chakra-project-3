@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const Header = () => {
   return (
     <HStack justifyContent={'space-between'} px={'6'} py={'3'} shadow={'base'} color={'cyan.500'} borderRadius={'0 0 15px 15px'} textShadow={'1px 1px #b4b4b4'}>
-      <Heading textShadow={'1px 1px #b4b4b4'}>Cripsy</Heading>
+      <Heading textShadow={'1px 1px #b4b4b4'}>Crypsy</Heading>
       <HStack columnGap={'6'}>
         <Button variant={'unstyled'}><Link to='/'>Home</Link></Button>
         <Button variant={'unstyled'}><Link to='/coins'>Coins</Link></Button>
